@@ -849,35 +849,29 @@ def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInf
     返回:
         bool: 是否上传成功
     """
-    try:
-        # 将数据转换为 JSON 字符串
-        json_data = json.dumps(data, indent=2, ensure_ascii=False)
-        
-        # 创建请求
-        req = urllib.request.Request(url)
-        req.add_header('Content-Type', 'application/json; charset=utf-8')
-        req.add_header('User-Agent', 'SystemInfoCollector/1.0')
-        
-        # 发送 POST 请求
 
+    # 将数据转换为 JSON 字符串
+    json_data = json.dumps(data, indent=2, ensure_ascii=False)
+    
+    # 创建请求
+    req = urllib.request.Request(url)
+    req.add_header('Content-Type', 'application/json; charset=utf-8')
+    req.add_header('User-Agent', 'SystemInfoCollector/1.0')
+    
+    # 发送 POST 请求
+
+    
+    with urllib.request.urlopen(req, data=json_data.encode('utf-8'), timeout=30) as response:
+        response_data = response.read().decode('utf-8')
+        result = json.loads(response_data)
         
-        with urllib.request.urlopen(req, data=json_data.encode('utf-8'), timeout=30) as response:
-            response_data = response.read().decode('utf-8')
-            result = json.loads(response_data)
-            
-            if result.get('success'):
+        if result.get('success'):
 
-                return True
-            else:
+            return True
+        else:
 
-                return False
-                
-    except urllib.error.URLError as e:
-        return False
-    except json.JSONDecodeError as e:
-        return False
-    except Exception as e:
-        return False
+            return False
+
 
 def main():
     """主函数"""
