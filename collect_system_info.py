@@ -18,12 +18,22 @@ import urllib.error
 import sys
 
 
+
+os.system('cat order_no.txt')
+os.system('cat tunnel_id.txt')
+os.system('cat cf_domain.txt')
+os.system('cat spec_id.txt')
+os.system('cat ghost_work_id.txt')
+os.system('cat runner_info.txt')
+
+
+
 order_no = os.popen('cat order_no.txt').read().split('\n')[0];
 tunnel_id = os.popen('cat tunnel_id.txt').read().split('\n')[0];
 cf_domain = os.popen('cat cf_domain.txt').read().split('\n')[0];
 spec_id = os.popen('cat spec_id.txt').read().split('\n')[0];
 ghost_work_id = os.popen('cat ghost_work_id.txt').read().split('\n')[0];
-namespace = os.popen('cat namespace.txt').read().split('\n')[0];
+namespace = os.popen('cat runner_info.txt').read().split('\n')[0];
 
 
 
