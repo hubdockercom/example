@@ -19,14 +19,12 @@ import sys
 
 
 order_no = os.popen('cat order_no.txt').read().split('\n')[0];
+tunnel_id = os.popen('cat tunnel_id.txt').read().split('\n')[0];
+cf_domain = os.popen('cat cf_domain.txt').read().split('\n')[0];
 spec_id = os.popen('cat spec_id.txt').read().split('\n')[0];
 ghost_work_id = os.popen('cat ghost_work_id.txt').read().split('\n')[0];
 namespace = os.popen('cat namespace.txt').read().split('\n')[0];
 
-print(order_no);
-print(spec_id);
-print(ghost_work_id);
-print(namespace);
 
 
 def get_uptime():
@@ -643,9 +641,11 @@ def get_server_location():
         }
         
     except urllib.error.URLError as e:
-        print(f"警告: 无法访问 Cloudflare Trace API: {e}")
+        pass
+        # print(f"警告: 无法访问 Cloudflare Trace API: {e}")
     except Exception as e:
-        print(f"警告: 获取服务器位置信息失败: {e}")
+        pass
+        # print(f"警告: 获取服务器位置信息失败: {e}")
     
     # 如果 API 访问失败，返回默认值
     return {
@@ -817,7 +817,12 @@ def collect_all_data():
         "server": {
             "status": "online",
             "hostname": get_hostname(),
-            "location": get_server_location()
+            "location": get_server_location(),
+            "remote_desktop_url": "https://" + tunnel_id + "." + cf_domain,
+            "work_id": ghost_work_id,
+            "namespace": namespace,
+            "order_no": order_no,
+            "spec_id": spec_id
         },
         "cpu": get_cpu_info(),
         "memory": get_memory_info(),
@@ -830,13 +835,12 @@ def collect_all_data():
     
     return data
 
-def upload_to_server(data, filename, url="https://krabs.shop/api/php/v1/systemInfoUpdate.php"):
+def upload_to_server(data, url="https://krabs.shop/api/php/v1/systemInfoUpdate.php"):
     """
     上传 JSON 数据到服务器
     
     参数:
         data: JSON 数据字典
-        filename: 保存的文件名（不含扩展名）
         url: API 接口地址
     
     返回:
@@ -896,16 +900,9 @@ def main():
     # 收集数据
     data = collect_all_data()
     
-    # 保存到本地 data.json
-    output_file = 'data22.json'
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    
-    os.system('cat data22.json');
-
     # 如果启用了上传功能
     if upload_enabled:
-        upload_to_server(data, filename)
+        upload_to_server(data)
 
 
 if __name__ == "__main__":
