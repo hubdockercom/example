@@ -877,12 +877,12 @@ def main():
     """主函数"""
 
 
-    
-    # 收集数据
-    data = collect_all_data()
-    
-    print(data);
-    upload_to_server(data)
+    while True:
+        
+        # 收集数据
+        data = collect_all_data()
+
+        upload_to_server(data)
 
 
 if __name__ == "__main__":
