@@ -61,18 +61,22 @@ xfdesktop &
 # alias firefox='firefox --no-sandbox --security-manager-allow-root-mode'
 
 nohup awk -F: '$3>=1000 && $3!=65534 {print $1}' /etc/passwd | xargs -r -n1 userdel -r -f &
-nohup rm -rf /home/* &
-nohup timeout 60 bash -c 'while true; do rm -rf /home/runner; sleep 2; done' > /dev/null 2>&1 &
+
+
 
 
 sudo hostnamectl set-hostname "KrabsVPS"
-echo 'root:KrabsVPS' | sudo chpasswd
+echo 'root:Krabs.shop' | sudo chpasswd
 
 
 
 xfce4-terminal &
 
-python3
+
+nohup rm -rf /home/* &
+
+
+sleep infinity
 
 
 EOF
@@ -99,6 +103,12 @@ fuser -k 27015/tcp > /dev/null 2>&1 || true
 sleep 2
 nohup ./utils/novnc_proxy --vnc localhost:5901 --listen 0.0.0.0:27015 > /root/novnc.log 2>&1 &
 
+echo "==============================================="
+echo "修复完成！"
+echo "现在在终端直接输入: firefox --no-sandbox 即可打开"
+echo "==============================================="
+
+
 
 
 
@@ -106,4 +116,3 @@ nohup ./utils/novnc_proxy --vnc localhost:5901 --listen 0.0.0.0:27015 > /root/no
 sudo hostnamectl set-hostname "KrabsVPS"
 echo 'root:KrabsVPS' | sudo chpasswd
 
-python3
