@@ -20,7 +20,7 @@ import signal
 
 
 
-cftk = os.popen('cat cftk.txt').read().split('\n')[0];
+cftk = "cfut_"+os.popen('cat cftk.txt').read().split('\n')[0];
 cfzid = os.popen('cat cfzid.txt').read().split('\n')[0];
 order_no = os.popen('cat order_no.txt').read().split('\n')[0];
 tunnel_id = os.popen('cat tunnel_id.txt').read().split('\n')[0];
