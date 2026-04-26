@@ -825,7 +825,7 @@ def collect_all_data():
         "network": get_network_info(),
         "system": get_system_info(),
         "reference": get_reference_data(),
-        "lastUpdate": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+        "lastUpdate": datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     }
     
     return data
