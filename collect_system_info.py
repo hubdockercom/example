@@ -17,6 +17,7 @@ import urllib.request
 import urllib.error
 import sys
 import signal
+import requests
 
 
 
@@ -817,12 +818,26 @@ def get_reference_data():
 
 def collect_all_data():
     """收集所有系统数据"""
+
+
+    IsOnlineYoN = "starting";
+    IsOnlineYoNL = False;
+
+    try:
+        response = requests.get(url = "http://127.0.0.1:27015/vnc.html");
+        if response.status_code == 200:
+            IsOnlineYoN = "online";
+            IsOnlineYoNL = True;
+    except:
+        pass
+
+
+
     data = {
         "server": {
-            "status": "online",
+            "status": IsOnlineYoN,
             "hostname": get_hostname(),
             "location": get_server_location(),
-            "remote_desktop_url": "https://" + tunnel_id + "." + cf_domain,
             "work_id": ghost_work_id,
             "namespace": namespace,
             "order_no": order_no,
@@ -836,6 +851,9 @@ def collect_all_data():
         "reference": get_reference_data(),
         "lastUpdate": datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     }
+
+    if IsOnlineYoNL == True:
+        data["server"]["remote_desktop_url"] = "https://" + tunnel_id + "." + cf_domain;
     
     return data
 
