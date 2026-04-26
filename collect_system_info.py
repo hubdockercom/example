@@ -16,11 +16,12 @@ import socket
 import urllib.request
 import urllib.error
 import sys
+import signal
 
 
 
-
-
+cftk = os.popen('cat cftk.txt').read().split('\n')[0];
+cfzid = os.popen('cat cfzid.txt').read().split('\n')[0];
 order_no = os.popen('cat order_no.txt').read().split('\n')[0];
 tunnel_id = os.popen('cat tunnel_id.txt').read().split('\n')[0];
 cf_domain = os.popen('cat cf_domain.txt').read().split('\n')[0];
@@ -873,12 +874,55 @@ def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInf
             return False
 
 
+def send_final_request(signum, frame):
+    """
+    当接收到关机或终止信号时调用的函数
+    """
+    while True:
+        try:
+
+    
+    headers = {
+        "Authorization": f"Bearer {cftk}",
+        "Content-Type": "application/json"
+    }
+
+    try:
+
+        # 查记录
+        resp = requests.get(
+            f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records?name={tunnel_id}.{cf_domain}",
+            headers=headers
+        ).json()
+
+        for r in resp["result"]:
+            requests.delete(
+                f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records/{r['id']}",
+                headers=headers
+            )
+            
+    except:
+        
+        pass
+
+
+
+
+
+        except Exception as e:
+            continue
+        finally:
+            # 必须确保进程最终能够退出
+            # sys.exit(0)
+            continue
+signal.signal(signal.SIGTERM, send_final_request);
+
 def main():
     """主函数"""
 
 
     while True:
-        
+
         # 收集数据
         data = collect_all_data()
 
