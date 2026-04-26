@@ -838,7 +838,7 @@ def collect_all_data():
     
     return data
 
-def upload_to_server(data, url="https://krabs.shop/api/php/v1/systemInfoUpdate.php"):
+def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php"):
     """
     上传 JSON 数据到服务器
     
@@ -866,10 +866,10 @@ def upload_to_server(data, url="https://krabs.shop/api/php/v1/systemInfoUpdate.p
             result = json.loads(response_data)
             
             if result.get('success'):
-                os.system(f'echo -e "{response_data.text}"');
+
                 return True
             else:
-                os.system(f'echo -e "{response_data.text}"');
+
                 return False
                 
     except urllib.error.URLError as e:
@@ -882,30 +882,13 @@ def upload_to_server(data, url="https://krabs.shop/api/php/v1/systemInfoUpdate.p
 def main():
     """主函数"""
 
-    # 解析命令行参数
-    upload_enabled = True
-    filename = None
-    
-    # 检查命令行参数
-    args = sys.argv[1:]
-    if '--upload' in args or '-u' in args:
-        upload_enabled = True
-        # 获取 filename 参数
-        for i, arg in enumerate(args):
-            if arg in ['--filename', '-f'] and i + 1 < len(args):
-                filename = args[i + 1]
-                break
-        
-        # 如果没有指定 filename，使用主机名
-        if not filename:
-            filename = socket.gethostname()
+
     
     # 收集数据
     data = collect_all_data()
     
-    # 如果启用了上传功能
-    if upload_enabled:
-        upload_to_server(data)
+    print(data);
+    upload_to_server(data)
 
 
 if __name__ == "__main__":
