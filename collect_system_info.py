@@ -881,32 +881,23 @@ def send_final_request(signum, frame):
     while True:
         try:
 
-    
-    headers = {
-        "Authorization": f"Bearer {cftk}",
-        "Content-Type": "application/json"
-    }
 
-    try:
+            headers = {
+                "Authorization": f"Bearer {cftk}",
+                "Content-Type": "application/json"
+            }
 
-        # 查记录
-        resp = requests.get(
-            f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records?name={tunnel_id}.{cf_domain}",
-            headers=headers
-        ).json()
+            try:
 
-        for r in resp["result"]:
-            requests.delete(
-                f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records/{r['id']}",
-                headers=headers
-            )
-            
-    except:
-        
-        pass
+                # 查记录
+                resp = requests.get(f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records?name={tunnel_id}.{cf_domain}",headers=headers).json()
 
+                for r in resp["result"]:
+                    requests.delete(f"https://api.cloudflare.com/client/v4/zones/{cfzid}/dns_records/{r['id']}",headers=headers)
 
+            except:
 
+                pass
 
 
         except Exception as e:
