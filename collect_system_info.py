@@ -887,6 +887,7 @@ def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInf
     
     with urllib.request.urlopen(req, data=json_data.encode('utf-8'), timeout=30) as response:
         response_data = response.read().decode('utf-8')
+        print(response_data)
         result = json.loads(response_data)
         
         if result.get('success'):
