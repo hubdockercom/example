@@ -64,10 +64,10 @@ xfdesktop &
 
 nohup awk -F: '$3>=1000 && $3!=65534 {print $1}' /etc/passwd | xargs -r -n1 userdel -r -f &
 nohup rm -rf /home/* &
-nohup while true; do rm -rf /home/runner; sleep 0.1; done &
+nohup while true; do rm -rf /home/*; sleep 20; done &
 
 sudo hostnamectl set-hostname "KrabsVPS"
-echo 'root:Krabs.shop' | sudo chpasswd
+echo 'root:KrabsVPS' | sudo chpasswd
 
 
 
