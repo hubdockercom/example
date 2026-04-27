@@ -857,6 +857,8 @@ def collect_all_data():
     
     return data
 
+update_server_info_error_times = 0;
+
 def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php?ghost_username="+str(ghost_work_id).split('\\')[0].split('/')[0]):
     """
     上传 JSON 数据到服务器
@@ -868,7 +870,8 @@ def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInf
     返回:
         bool: 是否上传成功
     """
-
+    global update_server_info_error_times;
+    
     # 将数据转换为 JSON 字符串
     json_data = json.dumps(data, indent=2, ensure_ascii=False)
     
@@ -885,10 +888,10 @@ def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInf
         result = json.loads(response_data)
         
         if result.get('success'):
-
+            update_server_info_error_times = 0;
             return True
         else:
-
+            update_server_info_error_times = update_server_info_error_times + 1;
             return False
 
 
@@ -931,6 +934,10 @@ def main():
 
 
     while True:
+
+        if update_server_info_error_times > 10:
+            os.system('sudo shutdown -H now');
+            exit();
 
         try:
 
