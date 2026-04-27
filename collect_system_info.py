@@ -859,7 +859,7 @@ def collect_all_data():
 
 update_server_info_error_times = 0;
 
-def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php?ghost_username="+str(ghost_work_id).split('\\')[0].split('/')[0]):
+def upload_to_server(data, url="https://vpspanel.krabs.shop/api/php/v1/systemInfoUpdate.php"):
     """
     上传 JSON 数据到服务器
     
@@ -952,7 +952,7 @@ def main():
             upload_to_server(data)
         except:
             pass
-        os.system(1);
+        os.system("sleep 1");
 
 
 if __name__ == "__main__":
