@@ -945,10 +945,13 @@ def main():
             os.system('sudo shutdown -H now');
             exit();
 
-        # 收集数据
-        data = collect_all_data()
+        try:
+            # 收集数据
+            data = collect_all_data()
 
-        upload_to_server(data)
+            upload_to_server(data)
+        except:
+            pass
 
         os.system("sleep 1");
 
